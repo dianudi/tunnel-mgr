@@ -1,0 +1,59 @@
+<div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="/" class="createOrUpdate" method="post">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">New Tunnel</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input required type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="name" placeholder="Self localhost" />
+          </div>
+          <div class="mb-3">
+            <label for="subdomain" class="form-label">Subdomain</label>
+            <input
+              required
+              type="text"
+              class="form-control form-control-sm"
+              id="subdomain"
+              name="subdomain"
+              aria-describedby="subdomain"
+              placeholder="loremipsum"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="host" class="form-label">Remote Host</label>
+            <input
+              required
+              type="text"
+              class="form-control form-control-sm"
+              id="host"
+              name="host"
+              aria-describedby="name"
+              placeholder="127.0.0.1 or localhost"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="port" class="form-label">Remote Port</label>
+            <input
+              required
+              min="1"
+              max="65535"
+              type="number"
+              class="form-control form-control-sm"
+              id="port"
+              name="port"
+              aria-describedby="name"
+              placeholder="port range 1-65535"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary update">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

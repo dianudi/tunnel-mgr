@@ -17,6 +17,6 @@ RUN yarn --production && yarn cache clean
 
 
 VOLUME [ "/app/database" ]
-# EXPOSE 3000
+EXPOSE 3000
 
 CMD [ "yarn",  "start" ]

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,18 +7,14 @@
     <link rel="stylesheet" href="/assets/bootstrap.min.css" />
   </head>
   <body>
-    <nav class="navbar bg-primary" data-bs-theme="dark">
-      <div class="container">
-        <span class="navbar-brand mb-0 h1 mx-auto">LocalTunnel Manager</span>
-      </div>
-    </nav>
-
+    <%- include('components/topBar') %> <%- include('components/modal') %>
     <main class="container mt-2">
+      <!-- table config -->
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Subdomain</th>
+            <th scope="col">Subdomain Request</th>
             <th scope="col">Remote Host:Port</th>
             <th scope="col">Enable</th>
           </tr>
@@ -27,7 +23,7 @@
           <% tunnelConfigs.forEach(e => { %>
           <tr style="cursor: pointer">
             <td class="editItem" data-id="<%= e.id %>"><%= e.name %></td>
-            <td class="editItem" data-id="<%= e.id %>"><%= e.subdomain %></td>
+            <td class="editItem text-truncate" data-id="<%= e.id %>"><%= e.subdomain %></td>
             <td class="editItem" data-id="<%= e.id %>"><%= e.host %>:<%= e.port %></td>
             <td>
               <div class="form-check form-switch">
@@ -38,104 +34,29 @@
           <% }) %>
         </tbody>
       </table>
-      <div>
-        <button type="button" class="btn btn-primary btn-sm mx-auto d-block newTunnel" data-bs-toggle="modal" data-bs-target="#addItem">New Tunnel</button>
+      <!-- end table config -->
+      <div class="text-center">
+        <button type="button" class="btn btn-primary btn-sm newTunnel" data-bs-toggle="modal" data-bs-target="#addItem">New Tunnel</button>
+        <form action="/apply" class="d-inline" method="post">
+          <button type="submit" class="btn btn-success btn-sm">Apply Changes</button>
+        </form>
       </div>
+
+      <!-- table status -->
+      <table class="table table-striped border mt-2">
+        <thead>
+          <tr>
+            <th scope="col">Subdomain Result</th>
+            <th scope="col">URL</th>
+            <th scope="col">Current Status</th>
+          </tr>
+        </thead>
+        <tbody class="status"></tbody>
+      </table>
+      <!-- end table status -->
     </main>
 
-    <!-- Modal -->
-    <div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <form action="" method="post">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">New Tunnel</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input required type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="name" placeholder="Self localhost" />
-              </div>
-              <div class="mb-3">
-                <label for="subdomain" class="form-label">Subdomain</label>
-                <input
-                  required
-                  type="text"
-                  class="form-control form-control-sm"
-                  id="subdomain"
-                  name="subdomain"
-                  aria-describedby="subdomain"
-                  placeholder="loremipsum"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="host" class="form-label">Remote Host</label>
-                <input
-                  required
-                  type="text"
-                  class="form-control form-control-sm"
-                  id="host"
-                  name="host"
-                  aria-describedby="name"
-                  placeholder="127.0.0.1 or localhost"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="port" class="form-label">Remote Port</label>
-                <input
-                  required
-                  min="1"
-                  max="65535"
-                  type="number"
-                  class="form-control form-control-sm"
-                  id="port"
-                  name="port"
-                  aria-describedby="name"
-                  placeholder="port range 1-65535"
-                />
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary update">Save</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- end Modal -->
-
     <script src="/assets/bootstrap.bundle.min.js"></script>
-
-    <script>
-      document.querySelectorAll(".editItem").forEach((e) => {
-        e.addEventListener("click", async () => {
-          const editModal = new bootstrap.Modal("#addItem");
-          editModal.show();
-          const data = await fetch(`/${e.getAttribute("data-id")}`).then((res) => res.ok && res.json());
-          document.querySelector("h1.modal-title").textContent = "Update Tunnel";
-          document.querySelector("button.update").textContent = "Update";
-          document.querySelector('input[name="name"]').value = data.name;
-          document.querySelector('input[name="subdomain"]').value = data.subdomain;
-          document.querySelector('input[name="host"]').value = data.host;
-          document.querySelector('input[name="port"]').value = data.port;
-        });
-      });
-
-      document.querySelector(".newTunnel").addEventListener("hover", () => {
-        document.querySelector("h1.modal-title").textContent = "New Tunnel";
-        document.querySelector("button.update").textContent = "Save";
-        document.querySelector('input[name="name"]').value = "";
-        document.querySelector('input[name="subdomain"]').value = "";
-        document.querySelector('input[name="host"]').value = "";
-        document.querySelector('input[name="port"]').value = "";
-      });
-      document.querySelectorAll(".enableItem").forEach((e) => {
-        e.addEventListener("click", async () => {
-          //   console.log(e.getAttribute("data-id"));
-          await fetch(`/${e.getAttribute("data-id")}/enable`, { method: "PATCH" }).then((res) => res.ok);
-        });
-      });
-    </script>
+    <script src="/assets/script.js"></script>
   </body>
 </html>
