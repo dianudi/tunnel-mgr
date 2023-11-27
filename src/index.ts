@@ -92,7 +92,18 @@ app.post("/:id", async (req, res) => {
     return res.sendStatus(500);
   }
 });
-
+app.delete("/:id", async (req, res) => {
+  console.log("hot");
+  try {
+    const tunnel = await db("tunnels").select("*").where("id", req.params.id).first();
+    if (!tunnel) res.sendStatus(404);
+    const result = await db("tunnels").delete().where("id", req.params.id);
+    if (!result) res.sendStatus(404);
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+});
 app.listen(3000, () => console.log("App running"));
 
 process.on("exit", function () {

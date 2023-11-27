@@ -3,6 +3,7 @@ document.querySelectorAll(".editItem").forEach((e) => {
   e.addEventListener("click", async () => {
     const editModal = new bootstrap.Modal("#addItem");
     editModal.show();
+    document.querySelector("button.delete").classList.remove("d-none");
     const data = await fetch(`/${e.getAttribute("data-id")}`).then((res) => res.ok && res.json());
     document.querySelector(".createOrUpdate").setAttribute("action", `/${e.getAttribute("data-id")}`);
     document.querySelector("h1.modal-title").textContent = "Update Tunnel";
@@ -11,11 +12,13 @@ document.querySelectorAll(".editItem").forEach((e) => {
     document.querySelector('input[name="subdomain"]').value = data.subdomain;
     document.querySelector('input[name="host"]').value = data.host;
     document.querySelector('input[name="port"]').value = data.port;
+    document.querySelector("button.delete").setAttribute("data-id", data.id);
   });
 });
 
 // Set default for Modal
-document.querySelector(".newTunnel").addEventListener("hover", () => {
+document.querySelector(".newTunnel").addEventListener("click", () => {
+  document.querySelector("button.delete").classList.add("d-none");
   document.querySelector(".createOrUpdate").setAttribute("action", `/`);
   document.querySelector("h1.modal-title").textContent = "New Tunnel";
   document.querySelector("button.update").textContent = "Save";
@@ -28,9 +31,15 @@ document.querySelector(".newTunnel").addEventListener("hover", () => {
 // Update enable button
 document.querySelectorAll(".enableItem").forEach((e) => {
   e.addEventListener("click", async () => {
-    //   console.log(e.getAttribute("data-id"));
     await fetch(`/${e.getAttribute("data-id")}/enable`, { method: "PATCH" }).then((res) => res.ok);
   });
+});
+
+// Delete button
+document.querySelector("button.delete").addEventListener("click", async (e) => {
+  document.querySelector("form.createOrUpdate").addEventListener("submit", (e) => e.preventDefault());
+  const res = await fetch(`/${document.querySelector("button.delete").getAttribute("data-id")}`, { method: "DELETE" }).then((res) => res.ok);
+  if (res) window.location.reload();
 });
 
 // Dark mode toggle
