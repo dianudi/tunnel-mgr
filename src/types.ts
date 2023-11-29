@@ -9,4 +9,10 @@ interface Tunnel {
   updated_at: Date;
 }
 
-export { Tunnel };
+interface NewOrUpdateTunnel {
+  name: string;
+  subdomain: string;
+  host: string;
+  port: number;
+}
+export { Tunnel, NewOrUpdateTunnel };

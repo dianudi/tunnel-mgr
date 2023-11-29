@@ -5,11 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Localtunnel Manager</title>
     <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+    <style>
+      .spinner {
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <%- include('components/topBar') %> <%- include('components/modal') %>
-    <main class="container mt-2">
+    <%- include('components/topBar') %> <%- include('components/modal') %> <%- include('components/toast') %>
+    <main class="container mt-3">
       <!-- table config -->
+      <div class="d-flex justify-content-between my-2">
+        <h1 class="fs-4">Configuration</h1>
+        <div>
+          <button type="button" class="btn btn-primary btn-sm newTunnel" data-bs-toggle="modal" data-bs-target="#addItem">New Tunnel</button>
+          <form action="/apply" class="d-inline" method="post">
+            <button type="submit" class="btn btn-success btn-sm">Apply Changes</button>
+          </form>
+        </div>
+      </div>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -20,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          <% tunnelConfigs.forEach(e => { %>
+          <% tunnels.forEach(e => { %>
           <tr style="cursor: pointer">
             <td class="editItem" data-id="<%= e.id %>"><%= e.name %></td>
             <td class="editItem text-truncate" data-id="<%= e.id %>"><%= e.subdomain %></td>
@@ -35,24 +57,34 @@
         </tbody>
       </table>
       <!-- end table config -->
-      <div class="text-center">
-        <button type="button" class="btn btn-primary btn-sm newTunnel" data-bs-toggle="modal" data-bs-target="#addItem">New Tunnel</button>
-        <form action="/apply" class="d-inline" method="post">
-          <button type="submit" class="btn btn-success btn-sm">Apply Changes</button>
-        </form>
-      </div>
 
       <!-- table status -->
-      <table class="table table-striped border mt-2">
-        <thead>
-          <tr>
-            <th scope="col">Subdomain Result</th>
-            <th scope="col">URL</th>
-            <th scope="col">Current Status</th>
-          </tr>
-        </thead>
-        <tbody class="status"></tbody>
-      </table>
+      <div class="d-flex justify-content-between">
+        <h1 class="fs-4">Status</h1>
+        <button type="button" class="btn spinner rounded-circle p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div style="min-height: 300px">
+        <table class="table table-striped mt-2">
+          <thead>
+            <tr>
+              <th scope="col">Subdomain Request</th>
+              <th scope="col">URL</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody class="status"></tbody>
+        </table>
+      </div>
       <!-- end table status -->
     </main>
 

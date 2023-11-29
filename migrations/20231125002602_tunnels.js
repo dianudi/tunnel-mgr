@@ -9,7 +9,7 @@ async function up(knex) {
     table.string("subdomain").notNullable().unique();
     table.string("host").notNullable();
     table.integer("port").notNullable();
-    table.boolean("enable").defaultTo("false");
+    table.boolean("enable").defaultTo("true");
     table.timestamps(true, true);
   });
 }

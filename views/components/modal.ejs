@@ -1,15 +1,15 @@
-<div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="addOrUpdateItem" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <form action="/" class="createOrUpdate" method="post">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">New Tunnel</h1>
+          <h1 class="modal-title fs-5" id="addOrUpdateItem">New Tunnel</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input required type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="name" placeholder="Self localhost" />
+            <input required type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="name" placeholder="Tunnel Name" />
           </div>
           <div class="mb-3">
             <label for="subdomain" class="form-label">Subdomain</label>
@@ -46,7 +46,7 @@
               id="port"
               name="port"
               aria-describedby="name"
-              placeholder="port range 1-65535"
+              placeholder="Port range 1-65535"
             />
           </div>
         </div>

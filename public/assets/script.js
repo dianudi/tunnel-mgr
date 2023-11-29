@@ -55,12 +55,17 @@ document.querySelector(".darkMode").addEventListener("click", () => {
 // Live update connections state
 setInterval(async () => {
   document.querySelector(".status").innerHTML = "";
-  const data = await fetch("/status").then((res) => res.json());
-  data.forEach((i) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${i.subdomain}</td><td><a class="text-decoration-none text-truncate" href="${i.url}">${i.url}</a></td><td>${
-      i.closed == false ? "Ready 🚀" : "Closed"
-    }</td>`;
-    document.querySelector(".status").appendChild(tr);
-  });
-}, 1000);
+  try {
+    const data = await fetch("/status").then((res) => res.json());
+    data.forEach((i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${i.subdomain}</td><td><a class="text-decoration-none text-truncate" href="${i.url}">${i.url}</a></td><td>${
+        i.closed == false ? "Ready 🚀" : "Closed"
+      }</td>`;
+      document.querySelector(".status").appendChild(tr);
+    });
+  } catch (error) {
+    const toast = bootstrap.Toast.getOrCreateInstance(document.querySelector("#noConnection"));
+    toast.show();
+  }
+}, 2000);
