@@ -2,11 +2,16 @@ import { Request, Response, Router } from "express";
 import { NewOrUpdateTunnel, Tunnel } from "./types.js";
 import db from "./db.js";
 import tunnels from "./tunnel.js";
+import log from "./log.js";
 
 const r = Router();
 r.route("/").get(async (_, res: Response): Promise<void> => {
-  const tunnels: Array<Tunnel> = await db("tunnels").select("*");
-  return res.render("index", { tunnels });
+  try {
+    const tunnels: Array<Tunnel> = await db("tunnels").select("*");
+    return res.render("index", { tunnels });
+  } catch (e: any | Error) {
+    log.error(e.message);
+  }
 });
 
 r.route("/").post(async (req: Request, res: Response): Promise<Response | void> => {
@@ -14,7 +19,8 @@ r.route("/").post(async (req: Request, res: Response): Promise<Response | void> 
   try {
     await db("tunnels").insert({ name, subdomain, host, port });
     return res.redirect(req.headers["referer"] || "/");
-  } catch (error) {
+  } catch (e: any | Error) {
+    log.error(e.message);
     return res.sendStatus(500);
   }
 });
@@ -42,7 +48,8 @@ r.route("/:id").get(async (req: Request, res: Response): Promise<Response> => {
     const tunnel: Tunnel = await db("tunnels").select("*").where("id", req.params.id).first();
     if (!tunnel) return res.sendStatus(404);
     return res.status(200).json(tunnel);
-  } catch (error) {
+  } catch (e: any | Error) {
+    log.error(e.message);
     return res.sendStatus(500);
   }
 });
@@ -53,7 +60,8 @@ r.route("/:id/enable").patch(async (req: Request, res: Response): Promise<Respon
     if (!tunnel) return res.sendStatus(404);
     await db("tunnels").update("enable", !tunnel.enable).where("id", req.params.id);
     return res.sendStatus(201);
-  } catch (error) {
+  } catch (e: any | Error) {
+    log.error(e.message);
     return res.sendStatus(500);
   }
 });
@@ -64,7 +72,8 @@ r.route("/:id").post(async (req: Request, res: Response): Promise<Response | voi
     if (!tunnel) res.sendStatus(404);
     await db("tunnels").update({ name, subdomain, host, port }).where("id", req.params.id);
     return res.redirect(req.headers["referer"] || "/");
-  } catch (error) {
+  } catch (e: any | Error) {
+    log.error(e.message);
     return res.sendStatus(500);
   }
 });
@@ -74,7 +83,8 @@ r.route("/:id").delete(async (req: Request, res: Response): Promise<Response | v
     if (!tunnel) res.sendStatus(404);
     await db("tunnels").delete().where("id", req.params.id);
     return res.sendStatus(204);
-  } catch (error) {
+  } catch (e: any | Error) {
+    log.error(e.message);
     return res.sendStatus(500);
   }
 });
