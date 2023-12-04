@@ -1,0 +1,19 @@
+## Example docker compose
+services:
+  tunnel-mgr:
+    build: .
+    container_name: tunnel-mgr
+    image: dianudi/tunnel-mgr:latest
+    ports:
+      # - 80:3000 # expose
+      - 3000
+    restart: always
+    ### Attach this container to the internal Docker network.
+    # networks:
+    #   default:
+    #     ipv4_address: "192.168.10.4"
+### You need to create an internal Docker network first before uncommenting below.
+# networks:
+#   default:
+#     name: http-proxy-network
+#     external: true

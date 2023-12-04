@@ -13,4 +13,11 @@ Multi-instance tunnel manager for Localtunnel. Used WebUI for simple management 
 3. Open Terminal or Command Prompt, and change the directory to locate the repository where you downloaded it. type `npm install` or `yarn` (if you use yarn as package manager) and enter; wait for it to end.
 4. Let's compile using the TypeScript compiler. Type `npm run build` or `yarn build` and enter.
 5. Run this application, type `npm start` or `yarn start`, open your web browser, and locate the URL to `http://localhost:3000`.
-6. Add your first tunnel by clicking the `New Tunnel` button and saving. You will see the first tunnel created. Now you can start it by clicking the `Enable toggle` and `Apply Changes` button.To edit the tunnel, you can click on the tunnel name in the tunnel table, save it, and click `Apply Changes`.
+6. Add your first tunnel by clicking the `New Tunnel` button and saving. You will see the first tunnel created. Now you can start it by clicking the `Enable toggle` and `Apply Changes` button.To edit the tunnel, you can click on the tunnel name in the tunnel table, save it, and click `Apply Changes` again.
+
+## Build and run with docker compose
+
+This project is very suitable for use in Docker containerization, with the aim of connecting among containers using the internal network of Docker. You can edit according to your needs in a docker-compose-example file.
+
+1. Rename `docker-compose-example.yml` file to `docker-compose.yml`.
+2. Open Terminal or command Prompt type `docker compose up -d`.

@@ -14,7 +14,7 @@ RUN rm -r /app/src
 RUN yarn --production && yarn cache clean
 
 
-VOLUME [ "/app/database", '/app/logs' ]
+VOLUME [ "/app/database", "/app/logs" ]
 EXPOSE 3000
 
 CMD [ "yarn",  "start" ]
